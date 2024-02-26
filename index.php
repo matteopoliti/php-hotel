@@ -40,6 +40,7 @@ $hotels = [
 
 ];
 
+$selected_parking = isset($_GET['parking']) ? $_GET['parking'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -56,33 +57,51 @@ $hotels = [
 
 <body data-bs-theme="dark">
     <div class="p-3">
-        <table class="table">
-            <thead>
-                <tr>
+        <div class="mb-4">
+            <form action="index.php" method="get">
+                <label for="parking" class="form-label">Parking</label>
+                <select class="form-select form-select mb-3" id="parking" name="parking">
+                    <option value="" selected>All Hotels</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <button type="submit" class="btn btn-secondary">Cerca</button>
+            </form>
+
+        </div>
+        <div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <?php
+
+                        foreach (array_keys($hotels[0]) as $key) {
+                            echo "<th>" . ucfirst($key) . "</th>";
+                        }
+                        ?>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
                     <?php
 
-                    foreach (array_keys($hotels[0]) as $key) {
-                        echo "<th>" . ucfirst($key) . "</th>";
+                    foreach ($hotels as $element) {
+                        if ($selected_parking === '' || ($selected_parking === 'yes' && $element['parking']) || ($selected_parking === 'no' && !$element['parking'])) {
+                    ?>
+                            <tr>
+                                <td><?php echo $element['name']; ?></td>
+                                <td><?php echo $element['description']; ?></td>
+                                <td><?php echo $element['parking'] ? 'Yes' : 'No'; ?></td>
+                                <td><?php echo $element['vote']; ?></td>
+                                <td><?php echo $element['distance_to_center']; ?> km</td>
+                            </tr>
+                    <?php
+                        }
                     }
                     ?>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider">
-                <?php
-                foreach ($hotels as $element) :
-                ?>
-                    <tr>
-                        <td><?php echo $element['name']; ?></td>
-                        <td><?php echo $element['description']; ?></td>
-                        <td><?php echo $element['parking'] ? 'Yes' : 'No'; ?></td>
-                        <td><?php echo $element['vote']; ?></td>
-                        <td><?php echo $element['distance_to_center']; ?> km</td>
-                    </tr>
-                <?php
-                endforeach
-                ?>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </body>
