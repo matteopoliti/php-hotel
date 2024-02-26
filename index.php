@@ -41,6 +41,7 @@ $hotels = [
 ];
 
 $selected_parking = isset($_GET['parking']) ? $_GET['parking'] : '';
+$selected_vote = isset($_GET['vote']) ? $_GET['vote'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -65,6 +66,16 @@ $selected_parking = isset($_GET['parking']) ? $_GET['parking'] : '';
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                 </select>
+
+                <label for="vote" class="form-label">Ratings</label>
+                <select class="form-select form-select mb-3" id="vote" name="vote">
+                    <option value="" selected>All Vote</option>
+                    <option value="1">1+</option>
+                    <option value="2">2+</option>
+                    <option value="3">3+</option>
+                    <option value="4">4+</option>
+                    <option value="5">5</option>
+                </select>
                 <button type="submit" class="btn btn-secondary">Cerca</button>
             </form>
 
@@ -86,7 +97,8 @@ $selected_parking = isset($_GET['parking']) ? $_GET['parking'] : '';
                     <?php
 
                     foreach ($hotels as $element) {
-                        if ($selected_parking === '' || ($selected_parking === 'yes' && $element['parking']) || ($selected_parking === 'no' && !$element['parking'])) {
+                        if (($selected_parking === '' || ($selected_parking === 'yes' && $element['parking']) || ($selected_parking === 'no' && !$element['parking'])) && ($selected_vote === '' || $element['vote'] >= $selected_vote)) {
+
                     ?>
                             <tr>
                                 <td><?php echo $element['name']; ?></td>
@@ -96,6 +108,7 @@ $selected_parking = isset($_GET['parking']) ? $_GET['parking'] : '';
                                 <td><?php echo $element['distance_to_center']; ?> km</td>
                             </tr>
                     <?php
+
                         }
                     }
                     ?>
