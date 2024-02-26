@@ -55,15 +55,36 @@ $hotels = [
 </head>
 
 <body data-bs-theme="dark">
+    <div class="p-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <?php
 
-    <div>
-        <?php
-        foreach ($hotels as $element) {
-            echo "<p>$element[name]</p>", "<p>$element[description]</p>", "<p>$element[parking]</p>", "<p>$element[vote]</p>", "<p>$element[distance_to_center]</p>";
-        }
-        ?>
+                    foreach (array_keys($hotels[0]) as $key) {
+                        echo "<th>" . ucfirst($key) . "</th>";
+                    }
+                    ?>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <?php
+                foreach ($hotels as $element) :
+                ?>
+                    <tr>
+                        <td><?php echo $element['name']; ?></td>
+                        <td><?php echo $element['description']; ?></td>
+                        <td><?php echo $element['parking'] ? 'Yes' : 'No'; ?></td>
+                        <td><?php echo $element['vote']; ?></td>
+                        <td><?php echo $element['distance_to_center']; ?> km</td>
+                    </tr>
+                <?php
+                endforeach
+                ?>
+            </tbody>
+        </table>
+
     </div>
-
 </body>
 
 </html>
